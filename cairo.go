@@ -525,7 +525,33 @@ func (self *Surface) FillExtents()(left, top, right, bottom float64){
     return;
 }
 
+// Clipping methods
 
+func (self *Surface) ResetClip(){
+    C.cairo_reset_clip(self.context);
+}
+
+func (self *Surface) Clip(){
+    C.cairo_clip(self.context);
+}
+
+func (self *Surface) ClipPreserve(){
+    C.cairo_clip_preserve(self.context);
+}
+
+func (self *Surface) ClipExtents()(left, top, right, bottom float64){
+    var x1, y1, x2, y2 float64;
+    px1 := (*C.double)(&x1);
+    py1 := (*C.double)(&y1);
+    px2 := (*C.double)(&x2);
+    py2 := (*C.double)(&y2);
+    C.cairo_clip_extents(self.context, px1, py1, px2, py2);
+    left = float64(*px1);
+    top = float64(*py1);
+    right = float64(*px2);
+    bottom = float64(*py2);
+    return;
+}
 
 func (self *Surface) SelectFontFace(name string, font_slant_t, font_weight_t int){
     p := C.CString(name);
