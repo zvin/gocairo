@@ -305,11 +305,12 @@ func (self *Surface) SetLineJoin(line_join_t int){
     C.cairo_set_line_join(self.context, C.cairo_line_join_t(line_join_t));
 }
 
-func (self *Surface) SetDash(dashes []float64, num_dashes int, offset float64){
-    dashesp := (*C.double)(dashes);
+// TODO: Figure out how to convert a slice into C
+/*func (self *Surface) SetDash(dashes []float64, num_dashes int, offset float64){
+    dashesp := (*C.double)(&dashes);
     C.cairo_set_dash(self.context, dashesp, C.int(num_dashes), C.double(offset));
 }
-
+*/
 func (self *Surface) SetMiterLimit(limit float64){
     C.cairo_set_miter_limit(self.context, C.double(limit));
 }
@@ -339,14 +340,16 @@ func (self *Surface) IdentityMatrix(){
 }
 
 func (self *Surface) UserToDevice(x,y float64)(dx,dy float64){
-    ux,uy := (*C.double)(&x), (*C.double)(&y);
+    ux := (*C.double)(&x);
+    uy := (*C.double)(&y);
     C.cairo_user_to_device(self.context, ux,uy);
     dx,dy = float64(*ux), float64(*uy);
     return;
 }
 
 func (self *Surface) UserToDeviceDistance(x,y float64)(dx,dy float64){
-    ux,ux := (*C.double)(&x), (*C.double)(&y);
+    ux := (*C.double)(&x);
+    ux := (*C.double)(&y);
     C.cairo_user_to_device_distance(self.context, ux, uy);
     dx, dy = float64(*ux), float64(*uy);
     return;
@@ -423,10 +426,10 @@ func (self *Surface) PathExtents()(left, top, right, bottom float64){
     px2 := (*C.double)(&x2);
     py2 := (*C.double)(&y2);
     C.cairo_path_extents(self.context, px1, py1, px2, py2);
-    left = float64(*ux1);
-    top = float64(*uy1);
-    right = float64(*ux2);
-    bottom = float64(*uy2);
+    left = float64(*px1);
+    top = float64(*py1);
+    right = float64(*px2);
+    bottom = float64(*py2);
     return; 
 }
 
@@ -441,7 +444,7 @@ func (self *Surface) PaintWithAlpha(alpha float64){
 }
 
 func (self *Surface) Mask(pattern *Pattern){
-    C.cairo_mask(pattern.pattern);
+    C.cairo_mask(self.context, pattern.pattern);
 }
 
 func (self *Surface) MaskSurface(surface *Surface, surface_x, surface_y float64){
@@ -476,12 +479,20 @@ func (self *Surface) ShowPage(){
 
 func (self *Surface) InStroke(x, y float64) bool{
     ret := C.cairo_in_stroke(self.context, C.double(x), C.double(y));
-    return bool(ret);
+    iret := int(ret);
+    if iret > 0{
+        return true;
+    }
+    return false;
 }
 
 func (self *Surface) InFill(x, y float64) bool{
     ret := C.cairo_in_fill(self.context, C.double(x), C.double(y));
-    return bool(ret);
+    iret := int(ret);
+    if iret > 0{
+        return true;
+    }
+    return false;
 }
 
 // Rectangular extents
