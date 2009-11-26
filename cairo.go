@@ -210,6 +210,16 @@ const(
     FilterGaussian;
 )
 
+// Utility functions
+
+func cairobool2bool(flag C.cairo_bool_t)bool{
+    if int(flag) > 0{
+        return true;
+    }
+	return false;
+}
+
+
 type Matrix struct{
     matrix *C.cairo_matrix_t;
 }
@@ -339,19 +349,17 @@ func (self *Surface) IdentityMatrix(){
     C.cairo_identity_matrix(self.context);
 }
 
-func (self *Surface) UserToDevice(x,y float64)(dx,dy float64){
-    ux := (*C.double)(&x);
-    uy := (*C.double)(&y);
+func (self *Surface) UserToDevice(x,y float64)(x1,y1 float64){
+    ux, uy := (*C.double)(&x), (*C.double)(&y);
     C.cairo_user_to_device(self.context, ux,uy);
-    dx,dy = float64(*ux), float64(*uy);
+    x1,y1 = float64(*ux), float64(*uy);
     return;
 }
 
-func (self *Surface) UserToDeviceDistance(x,y float64)(dx,dy float64){
-    ux := (*C.double)(&x);
-    ux := (*C.double)(&y);
+func (self *Surface) UserToDeviceDistance(dx,dy float64)(dx1,dy1 float64){
+    ux, uy := (*C.double)(&dx),(*C.double)(&dy);
     C.cairo_user_to_device_distance(self.context, ux, uy);
-    dx, dy = float64(*ux), float64(*uy);
+    dx1, dy1 = float64(*ux), float64(*uy);
     return;
 }
 
@@ -479,20 +487,12 @@ func (self *Surface) ShowPage(){
 
 func (self *Surface) InStroke(x, y float64) bool{
     ret := C.cairo_in_stroke(self.context, C.double(x), C.double(y));
-    iret := int(ret);
-    if iret > 0{
-        return true;
-    }
-    return false;
+    return cairobool2bool(ret);
 }
 
 func (self *Surface) InFill(x, y float64) bool{
     ret := C.cairo_in_fill(self.context, C.double(x), C.double(y));
-    iret := int(ret);
-    if iret > 0{
-        return true;
-    }
-    return false;
+    return cairobool2bool(ret);
 }
 
 // Rectangular extents
