@@ -21,17 +21,16 @@ cairo_surface_t *surface =
   cairo_destroy (cr);
   cairo_surface_write_to_png (surface, "hello.png");
   cairo_surface_destroy (surface);
-  
+
 */
 
-func main(){
-    surface := cairo.NewSurface(cairo.FormatArgB32, 240, 80);
-    surface.SelectFontFace("serif", cairo.FontSlantNormal, cairo.FontWeightBold);
-    surface.SetFontSize(32.0);
-    surface.SetSourceRGB(0.0, 0.0, 1.0);
-    surface.MoveTo(10.0, 50.0);
-    surface.ShowText("Hello World");
-    surface.Finish();
-    surface.WriteToPNG("hello.png");
+func main() {
+	surface := cairo.NewSurface(cairo.FormatArgB32, 240, 80);
+	surface.SelectFontFace("serif", cairo.FontSlantNormal, cairo.FontWeightBold);
+	surface.SetFontSize(32.0);
+	surface.SetSourceRGB(0.0, 0.0, 1.0);
+	surface.MoveTo(10.0, 50.0);
+	surface.ShowText("Hello World");
+	surface.Finish();
+	surface.WriteToPNG("hello.png");
 }
-
