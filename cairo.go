@@ -8,206 +8,278 @@ import (
 	"unsafe";
 )
 
+
+type Status int
+
 // cairo_status_t values
 const (
-	StatusSuccess	= iota;
-	StatusNoMemory;
-	StatusInvalidRestore;
-	StatusInvalidPopGroup;
-	StatusNoCurrentPoint;
-	StatusInvalidMatrix;
-	StatusInvalidStatus;
-	StatusNullPointer;
-	StatusInvalidString;
-	StatusInvalidPathData;
-	StatusReadError;
-	StatusWriteError;
-	StatusSurfaceFinished;
-	StatusSurfaceTypeMismatch;
-	StatusPatternTypeMismatch;
-	StatusInvalidContent;
-	StatusInvalidFormat;
-	StatusInvalidVisual;
-	StatusFileNotFound;
-	StatusInvalidDash;
-	StatusInvalidDscComment;
-	StatusInvalidIndex;
-	StatusClipNotRepresentable;
-	StatusTempFileError;
-	StatusInvalidStride;
-	StatusFontTypeMismatch;
-	StatusUserFontImmutable;
-	StatusUserFontError;
-	StatusNegativeCount;
-	StatusInvalidClusters;
-	StatusInvalidSlant;
-	StatusInvalidWeight;
+	StatusSuccess	Status = iota;
+	StatusNoMemory
+	StatusInvalidRestore
+	StatusInvalidPopGroup
+	StatusNoCurrentPoint
+	StatusInvalidMatrix
+	StatusInvalidStatus
+	StatusNullPointer
+	StatusInvalidString
+	StatusInvalidPathData
+	StatusReadError
+	StatusWriteError
+	StatusSurfaceFinished
+	StatusSurfaceTypeMismatch
+	StatusPatternTypeMismatch
+	StatusInvalidContent
+	StatusInvalidFormat
+	StatusInvalidVisual
+	StatusFileNotFound
+	StatusInvalidDash
+	StatusInvalidDscComment
+	StatusInvalidIndex
+	StatusClipNotRepresentable
+	StatusTempFileError
+	StatusInvalidStride
+	StatusFontTypeMismatch
+	StatusUserFontImmutable
+	StatusUserFontError
+	StatusNegativeCount
+	StatusInvalidClusters
+	StatusInvalidSlant
+	StatusInvalidWeight
+	StatusInvalidSize
+  StatusUserFontNotImplemented
+  StatusDeviceTypeMismatch
+  StatusDeviceError
+  StatusLast
 )
+
+type Content int
 
 // cairo_content_t values
 const (
-	ContentColor	= iota * 0x1000;
-	ContentAlpha;
-	ContentColorAlpha;
+	ContentColor Content = iota * 0x1000
+	ContentAlpha
+	ContentColorAlpha
 )
+
+type Operator int
 
 // cairo_operator_t values
 const (
-	OperatorClear	= iota;
-	OperatorSource;
-	OperatorOver;
-	OperatorIn;
-	OperatorOut;
-	OperatorAtop;
-	OperatorDest;
-	OperatorDestOver;
-	OperatorDestIn;
-	OperatorDestOut;
-	OperatorDestAtop;
-	OperatorXor;
-	OperatorAdd;
-	OperatorSaturate;
+	OperatorClear	Operator = iota
+	OperatorSource
+	OperatorOver
+	OperatorIn
+	OperatorOut
+	OperatorAtop
+	OperatorDest
+	OperatorDestOver
+	OperatorDestIn
+	OperatorDestOut
+	OperatorDestAtop
+	OperatorXor
+	OperatorAdd
+	OperatorSaturate
+	OperatorMultiply
+  OperatorScreen
+  OperatorOverlay
+  OperatorDarken
+  OperatorLighten
+  OperatorColorDodge
+  OperatorColorBurn
+  OperatorHardLight
+  OperatorSoftLight
+  OperatorDifference
+  OperatorExclusion
+  OperatorHSLHue
+  OperatorHSLSaturation
+  OperatorHSLColor
+  OperatorHSLLuminosity
 )
+
+type Antialias int
 
 // cairo_antialias_t values
 const (
-	AntialiasDefault	= iota;
-	AntialiasNone;
-	AntialiasGray;
-	AntialiasSubpixel;
+	AntialiasDefault Antialias = iota
+	AntialiasNone
+	AntialiasGray
+	AntialiasSubpixel
 )
+
+type FillRule int
 
 // cairo_fill_rule_t values
 const (
-	FillRuleWinding	= iota;
-	FillRuleEvenOdd;
+	FillRuleWinding	FillRule = iota
+	FillRuleEvenOdd
 )
+
+type LineCap int
 
 // cairo_line_cap_t values
 const (
-	LineCapButt	= iota;
-	LineCapRound;
-	LineCapSquare;
+	LineCapButt	LineCap = iota
+	LineCapRound
+	LineCapSquare
 )
+
+type LineJoin int
 
 // cairo_line_cap_join_t values
 const (
-	LineJoinMiter	= iota;
-	LineJoinRound;
-	LineJoinBevel;
+	LineJoinMiter	LineJoin = iota
+	LineJoinRound
+	LineJoinBevel
 )
+
+type TextClusterFlag int
 
 // cairo_text_cluster_flag_t value(s)
 const (
-	TextClusterFlagBackward = iota;
+	TextClusterFlagBackward TextClusterFlag = 1 << iota
 )
+
+type FontSlant int
 
 // cairo_font_slant_t values
 const (
-	FontSlantNormal	= iota;
-	FontSlantItalic;
-	FontSlantOblique;
+	FontSlantNormal	FontSlant = iota
+	FontSlantItalic
+	FontSlantOblique
 )
+
+type FontWeight int
 
 // cairo_font_weight_t values
 const (
-	FontWeightNormal	= iota;
-	FontWeightBold;
+	FontWeightNormal FontWeight = iota
+	FontWeightBold
 )
+
+type SubpixelOrder int
 
 // cairo_subpixel_order_t values
 const (
-	SubpixelOrderDefault	= iota;
-	SubpixelOrderRGB;
-	SubpixelOrderBGR;
-	SubpixelOrderVRGB;
-	SubpixelOrderVBGR;
+	SubpixelOrderDefault SubpixelOrder = iota
+	SubpixelOrderRGB
+	SubpixelOrderBGR
+	SubpixelOrderVRGB
+	SubpixelOrderVBGR
 )
+
+type HintStyle int
 
 // cairo_hint_style_t values
 const (
-	HintStyleDefault	= iota;
-	HintStyleNone;
-	HintStyleSlight;
-	HintStyleMedium;
-	HintStyleFull;
+	HintStyleDefault HintStyle = iota
+	HintStyleNone
+	HintStyleSlight
+	HintStyleMedium
+	HintStyleFull
 )
+
+type HintMetrics int
 
 // cairo_hint_metrics_t values
 const (
-	HintMetricsDefault	= iota;
-	HintMetricsOff;
-	HintMetricsOn;
+	HintMetricsDefault HintMetrics = iota
+	HintMetricsOff
+	HintMetricsOn
 )
+
+type FontType int
 
 // cairo_font_type_t values
 const (
-	FontTypeToy	= iota;
-	FontTypeFT;
-	FontTypeWin32;
-	FontTypeQuartz;
-	FontTypeUser;
+	FontTypeToy FontType = iota
+	FontTypeFT
+	FontTypeWin32
+	FontTypeQuartz
+	FontTypeUser
 )
+
+type PathDataType int
 
 // cairo_path_data_type_t values
 const (
-	PathMoveTo	= iota;
-	PathLineTo;
-	PathCurveTo;
-	PathClosePath;
+	PathMoveTo PathDataType = iota
+	PathLineTo
+	PathCurveTo
+	PathClosePath
 )
+
+type SurfaceType int
 
 // cairo_surface_type_t values
 const (
-	SurfaceTypeImage	= iota;
-	SurfaceTypePDF;
-	SurfaceTypePS;
-	SurfaceTypeXlib;
-	SurfaceTypeXCB;
-	SurfaceTypeGlitz;
-	SurfaceTypeQuartz;
-	SurfaceTypeWin32;
-	SurfaceTypeBeOS;
-	SurfaceTypeDirectFB;
-	SurfaceTypeSVG;
-	SurfaceTypeOS2;
-	SurfaceTypeWin32Printing;
-	SurfaceTypeQuartzImage;
+	SurfaceTypeImage SurfaceType = iota
+	SurfaceTypePDF
+	SurfaceTypePS
+	SurfaceTypeXlib
+	SurfaceTypeXCB
+	SurfaceTypeGlitz
+	SurfaceTypeQuartz
+	SurfaceTypeWin32
+	SurfaceTypeBeOS
+	SurfaceTypeDirectFB
+	SurfaceTypeSVG
+	SurfaceTypeOS2
+	SurfaceTypeWin32Printing
+	SurfaceTypeQuartzImage
+	SurfaceTypeScript
+  SurfaceTypeQt
+  SurfaceTypeRecording
+  SurfaceTypeVG
+  SurfaceTypeGL
+  SurfaceTypeDRM
+  SurfaceTypeTEE
+  SurfaceTypeXML
+  SurfaceTypeSkia
+  SurfaceTypeSubsurface
+	
 )
+
+type Format int
 
 // cairo_format_t values
 const (
-	FormatArgB32	= iota;
-	FormatRGB24;
-	FormatA8;
-	FormatA1;
-	_;	// reserved for deprecated value
+	FormatArgB32 Format = iota
+	FormatRGB24
+	FormatA8
+	FormatA1
+	FormatRGB16_565
 )
+
+type PatternType int
 
 // cairo_pattern_type_t values
 const (
-	PatternTypeSolid	= iota;
-	PatternTypeSurface;
-	PatternTypeLinear;
-	PatternTypeRadial;
+	PatternTypeSolid PatternType = iota
+	PatternTypeSurface
+	PatternTypeLinear
+	PatternTypeRadial
 )
+
+type Extend int
 
 // cairo_extend_t value
 const (
-	ExtendNone	= iota;
-	ExtendRepeat;
-	ExtendReflect;
-	ExtendPad;
+	ExtendNone Extend = iota
+	ExtendRepeat
+	ExtendReflect
+	ExtendPad
 )
+
+type Filter int
 
 // cairo_filter_t values
 const (
-	FilterFast	= iota;
-	FilterGood;
-	FilterBest;
-	FilterNearest;
-	FilterBilinear;
-	FilterGaussian;
+	FilterFast Filter = iota
+	FilterGood
+	FilterBest
+	FilterNearest
+	FilterBilinear
+	FilterGaussian
 )
 
 // Utility functions
@@ -236,7 +308,7 @@ type Surface struct {
 
 func Version() int	{ return int(C.cairo_version()) }
 
-func NewSurface(format, width, height int) *Surface {
+func NewSurface(format Format, width, height int) *Surface {
 	surface := new(Surface);
 	surface.surface = C.cairo_image_surface_create(C.cairo_format_t(format), C.int(width), C.int(height));
 	surface.context = C.cairo_create(surface.surface);
@@ -249,8 +321,8 @@ func (self *Surface) Restore()	{ C.cairo_restore(self.context) }
 
 func (self *Surface) PushGroup()	{ C.cairo_push_group(self.context) }
 
-func (self *Surface) PushGroupWithContent(content_t int) {
-	C.cairo_push_group_with_content(self.context, C.cairo_content_t(content_t))
+func (self *Surface) PushGroupWithContent(content Content) {
+	C.cairo_push_group_with_content(self.context, C.cairo_content_t(content))
 }
 
 func (self *Surface) PopGroup() (pattern *Pattern) {
@@ -261,8 +333,8 @@ func (self *Surface) PopGroup() (pattern *Pattern) {
 
 func (self *Surface) PopGroupToSource()	{ C.cairo_pop_group_to_source(self.context) }
 
-func (self *Surface) SetOperator(operator_t int) {
-	C.cairo_set_operator(self.context, C.cairo_operator_t(operator_t))
+func (self *Surface) SetOperator(operator Operator) {
+	C.cairo_set_operator(self.context, C.cairo_operator_t(operator))
 }
 
 func (self *Surface) SetSource(pattern *Pattern) {
@@ -285,24 +357,24 @@ func (self *Surface) SetTolerance(tolerance float64) {
 	C.cairo_set_tolerance(self.context, C.double(tolerance))
 }
 
-func (self *Surface) SetAntialias(antialias_t int) {
-	C.cairo_set_antialias(self.context, C.cairo_antialias_t(antialias_t))
+func (self *Surface) SetAntialias(antialias Antialias) {
+	C.cairo_set_antialias(self.context, C.cairo_antialias_t(antialias))
 }
 
-func (self *Surface) SetFillRule(fill_rule_t int) {
-	C.cairo_set_fill_rule(self.context, C.cairo_fill_rule_t(fill_rule_t))
+func (self *Surface) SetFillRule(fill_rule FillRule) {
+	C.cairo_set_fill_rule(self.context, C.cairo_fill_rule_t(fill_rule))
 }
 
 func (self *Surface) SetLineWidth(width float64) {
 	C.cairo_set_line_width(self.context, C.double(width))
 }
 
-func (self *Surface) SetLineCap(line_cap_t int) {
-	C.cairo_set_line_cap(self.context, C.cairo_line_cap_t(line_cap_t))
+func (self *Surface) SetLineCap(line_cap LineCap) {
+	C.cairo_set_line_cap(self.context, C.cairo_line_cap_t(line_cap))
 }
 
-func (self *Surface) SetLineJoin(line_join_t int) {
-	C.cairo_set_line_join(self.context, C.cairo_line_join_t(line_join_t))
+func (self *Surface) SetLineJoin(line_join LineJoin) {
+	C.cairo_set_line_join(self.context, C.cairo_line_join_t(line_join))
 }
 
 // TODO: Figure out how to convert a slice into C
@@ -511,9 +583,9 @@ func (self *Surface) ClipExtents() (left, top, right, bottom float64) {
 	return;
 }
 
-func (self *Surface) SelectFontFace(name string, font_slant_t, font_weight_t int) {
+func (self *Surface) SelectFontFace(name string, font_slant FontSlant, font_weight FontWeight) {
 	p := C.CString(name);
-	C.cairo_select_font_face(self.context, p, C.cairo_font_slant_t(font_slant_t), C.cairo_font_weight_t(font_weight_t));
+	C.cairo_select_font_face(self.context, p, C.cairo_font_slant_t(font_slant), C.cairo_font_weight_t(font_weight));
 	C.free(unsafe.Pointer(p));
 }
 
