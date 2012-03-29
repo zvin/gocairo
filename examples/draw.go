@@ -2,7 +2,7 @@ package main
 
 // Simple test for cairo package
 
-import "bitbucket.org/dethe/gocairo"
+import "bitbucket.org/mkamstrup/gocairo"
 
 /*
 Go port of this C code:
