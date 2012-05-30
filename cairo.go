@@ -316,6 +316,19 @@ func NewSurface(format Format, width, height int) *Surface {
 	return surface;
 }
 
+func NewSurfaceFromPNG(filename string) *Surface {
+	surface := new(Surface);
+	p := C.CString(filename);
+	surface.surface = C.cairo_image_surface_create_from_png(p);
+	C.free(unsafe.Pointer(p));
+	surface.context = C.cairo_create(surface.surface);
+	return surface;
+}
+
+func (surface *Surface) SurfaceStatus() int {
+    return int(C.cairo_surface_status(surface.surface))
+}
+
 func (self *Surface) Save()	{ C.cairo_save(self.context) }
 
 func (self *Surface) Restore()	{ C.cairo_restore(self.context) }
@@ -608,4 +621,4 @@ func (self *Surface) WriteToPNG(filename string) {
 	C.free(unsafe.Pointer(p));
 }
 
-func (self *Surface) destroy()	{ C.cairo_surface_destroy(self.surface) }
+func (self *Surface) Destroy()	{ C.cairo_surface_destroy(self.surface) }
